@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import clsx from "clsx";
+import { Menu } from "@/components/ui/Menu";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={clsx(inter.className, "text-[24px]")}>
+        <div className="grid justify-center bg-gray-200">
+          <Menu />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }
