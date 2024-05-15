@@ -1,7 +1,7 @@
 "use server";
 
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt, encrypt } from "@/lib/auth";
+import { decrypt, encrypt } from "@/lib/jwt";
 
 export async function updateSession(request: NextRequest) {
   const session = request.cookies.get("session")?.value;

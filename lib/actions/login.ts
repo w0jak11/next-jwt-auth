@@ -1,7 +1,7 @@
 "use server";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
-import { encrypt } from "@/lib/auth";
+import { encrypt } from "@/lib/jwt";
 import { redirect } from "next/navigation";
 
 export async function login(_: any, formData: FormData) {
