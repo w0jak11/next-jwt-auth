@@ -1,10 +1,11 @@
 "use client";
 
 import { getSession } from "@/lib/actions/get-session";
+import { logout } from "@/lib/actions/sign-out";
 import { JWTSession } from "@/lib/types";
 import clsx from "clsx";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const menu = [
@@ -15,6 +16,7 @@ const menu = [
   },
 ];
 export function Menu() {
+  const router = useRouter();
   useEffect(() => {
     const updateSession = async () => {
       const updatedSession = await getSession();
@@ -23,23 +25,27 @@ export function Menu() {
     };
     updateSession();
   }, []);
+
   const pathname = usePathname();
   const [session, setSession] = useState<JWTSession | null>(null);
   return (
-    <div className="grid grid-rows-1 grid-flow-col gap-[20px]">
+    <div className='grid grid-rows-1 grid-flow-col gap-[20px]'>
       {menu.map((el) => (
-        <Link
-          href={el.link}
-          key={el.title}
-          className={clsx(pathname == el.link && "underline")}
-        >
+        <Link href={el.link} key={el.title} className={clsx(pathname == el.link && "underline")}>
           {el.title}
         </Link>
       ))}
       {session ? (
-        <Link href="/logout">Выйти ({session.credentials.login})</Link>
+        <form
+          action={() => {
+            logout();
+            redirect("/");
+          }}
+        >
+          <button>Выйти ({session.credentials.login})</button>
+        </form>
       ) : (
-        <Link href="/login">Войти</Link>
+        <Link href='/login'>Войти</Link>
       )}
     </div>
   );
