@@ -16,7 +16,7 @@ const menu = [
   },
 ];
 export function Menu() {
-  const router = useRouter();
+  const pathname = usePathname();
   useEffect(() => {
     const updateSession = async () => {
       const updatedSession = await getSession();
@@ -24,9 +24,8 @@ export function Menu() {
       setSession(updatedSession);
     };
     updateSession();
-  }, []);
+  }, [pathname]);
 
-  const pathname = usePathname();
   const [session, setSession] = useState<JWTSession | null>(null);
   return (
     <div className='grid grid-rows-1 grid-flow-col gap-[20px]'>
@@ -36,12 +35,7 @@ export function Menu() {
         </Link>
       ))}
       {session ? (
-        <form
-          action={() => {
-            logout();
-            redirect("/");
-          }}
-        >
+        <form action={logout}>
           <button>Выйти ({session.credentials.login})</button>
         </form>
       ) : (
